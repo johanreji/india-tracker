@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "fe27840f54b74dfc35e2e5f7777eab89",
+    "revision": "758ef873fba6ad1545ca327f79bf0e34",
     "url": "/india-tracker/index.html"
   },
   {
-    "revision": "4de136992344ac31aaa8",
+    "revision": "cc4c1cbaefb38dd475a2",
     "url": "/india-tracker/static/css/main.6ca14f59.chunk.css"
   },
   {
@@ -16,11 +16,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/india-tracker/static/js/2.c4d3f1f2.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "4de136992344ac31aaa8",
-    "url": "/india-tracker/static/js/main.7b07aee0.chunk.js"
+    "revision": "cc4c1cbaefb38dd475a2",
+    "url": "/india-tracker/static/js/main.2a09622d.chunk.js"
   },
   {
     "revision": "e3f19176593cfe6482ae",
     "url": "/india-tracker/static/js/runtime-main.aba5cbc0.js"
+  },
+  {
+    "revision": "e9889154f7e61aff564fe8f20539b6b4",
+    "url": "/india-tracker/static/media/india-tracker-shadow.e9889154.png"
   }
 ]);
