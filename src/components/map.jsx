@@ -8,6 +8,7 @@ import ReactTooltip from 'react-tooltip';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import LinearGradient from './LinearGradient.js';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 
 const INDIA_TOPO_JSON = require('./india.topo.json');
@@ -196,7 +197,7 @@ console.log('colorArray',colorArray);
 render(){
   return (
       
-    this.state.data.length > 0 && this.state.categories && <div className="full-width-height container">
+   ( this.state.data.length > 0 && this.state.categories )? <div className="full-width-height container">
               <StyledTabs
           value={this.state.selectedIndex}
           onChange={this.handleCategoryChange}
@@ -236,7 +237,8 @@ render(){
           </Geographies>
         </ComposableMap>
        {this.state.gradientData && <LinearGradient data={this.state.gradientData} />}
-    </div>
+    </div>:
+<Skeleton animation="wave"  height='800px'/>
   )}
 }
 

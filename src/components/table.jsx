@@ -9,6 +9,7 @@ import Paper from '@material-ui/core/Card';
 import './table.css';
 import Axios from 'axios';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 
 let lastupdatedtime;
@@ -58,9 +59,7 @@ class StateTable extends React.Component{
   }
   render(){
  
-  return (
-
-    <Paper style={{
+  return (this.state.tableHeader.length > 0 && this.state.tableData.length > 0) ?<Paper style={{
         width: '100%',
         overflowX: 'auto',
       }}>
@@ -68,11 +67,11 @@ class StateTable extends React.Component{
         {lastupdatedtime && <caption>Last updated : {lastupdatedtime}</caption>}
         <TableHead > 
           <TableRow>
-            {this.state && this.state.tableHeader.map(v => (v!= 'statecode' && v != 'lastupdatedtime') && <StyledTableCell  style={{fontWeight:"600"}}>{v}</StyledTableCell>)}
+            {this.state.tableHeader.map(v => (v!= 'statecode' && v != 'lastupdatedtime') && <StyledTableCell  style={{fontWeight:"600"}}>{v}</StyledTableCell>)}
           </TableRow>
         </TableHead>
         <TableBody>
-          {this.state && this.state.tableData.map((row) => 
+          {this.state.tableData.map((row) => 
             row.statecode != 'TT' && <StyledTableRow key={row.id}>
               {Object.values(row).map(u => {
                   if(row['lastupdatedtime'] == u ){
@@ -86,9 +85,9 @@ class StateTable extends React.Component{
           )}
         </TableBody>
       </Table>
-    </Paper>
-  );
-}
+    </Paper>:
+<Skeleton animation="wave"  height='100%'/>
+  }
 }
 
 export default StateTable;
