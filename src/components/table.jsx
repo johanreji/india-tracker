@@ -67,18 +67,18 @@ class StateTable extends React.Component{
         {lastupdatedtime && <caption>Last updated : {lastupdatedtime}</caption>}
         <TableHead > 
           <TableRow>
-            {this.state.tableHeader.map(v => (v!= 'statecode' && v != 'lastupdatedtime') && <StyledTableCell  style={{fontWeight:"600"}}>{v}</StyledTableCell>)}
+            {this.state.tableHeader.map(v => (v!= 'statecode' && v != 'lastupdatedtime') && v && <StyledTableCell  style={{fontWeight:"600"}}>{v}</StyledTableCell>)}
           </TableRow>
         </TableHead>
         <TableBody>
           {this.state.tableData.map((row) => 
             row.statecode != 'TT' && <StyledTableRow key={row.id}>
-              {Object.values(row).map(u => {
-                  if(row['lastupdatedtime'] == u ){
-                    lastupdatedtime = u;
+              {Object.keys(row).map(u => {
+                  if('lastupdatedtime' == u ){
+                    lastupdatedtime = row[u];
                   }
-                  return (row['statecode'] != u && row['lastupdatedtime'] != u) && <TableCell component="th" scope="row">
-                {u}
+                  return ('statecode' != u && 'lastupdatedtime' != u && u) && <TableCell component="th" scope="row" style={'state' == u?{}:{textAlign:'right'}}>
+                {row[u]}
               </TableCell>
             })}
             </StyledTableRow>

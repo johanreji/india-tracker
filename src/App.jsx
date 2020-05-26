@@ -13,7 +13,7 @@ import './App.css';
 import 'axios';
 import { styled } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import logo from './intracker_logo.jpeg';
+import logo from './india-tracker-shadow.png';
 
 // url to a valid topojson file
 const geoUrl =
@@ -23,7 +23,7 @@ const MyAppBar = styled(AppBar)({
   border: 0,
   boxShadow: '0 3px 5px 2px rgba(99, 99, 99, .3)',
   color: 'white',
-  height: 48,
+  height: 55,
 });
 function HideOnScroll(props) {
   const { children, window } = props;
@@ -42,7 +42,7 @@ class App extends React.Component{
 <HideOnScroll >
   <MyAppBar >
     <Toolbar>
-      <Typography variant="h6">India Tracker</Typography>
+      <Typography variant="h4">TriFed</Typography>
       <img style={{marginLeft: 'auto',maxWidth: '130px',marginTop: '-10px'}} src={logo}/>
     </Toolbar>
     

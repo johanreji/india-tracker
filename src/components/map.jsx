@@ -18,29 +18,14 @@ const PROJECTION_CONFIG = {
   center: [78.9629, 22.5937] // always in [East Latitude, North Longitude]
 };
 
-// Red Variants
-const COLOR_RANGE = [
-  '#ffedea',
-  '#ffcec5',
-  '#ffad9f',
-  '#ff8a75',
-  '#ff5533',
-  '#e2492d',
-  '#be3d26',
-  '#9a311f',
-  '#782618'
-];
-// let COLOR_RANGE = [
-//     '#EDFD99',
-//     '#dbea91',
-//     '#cbd886',
-//     '#b9c57a',
-//     '#95a15a',
-//     '#747e40',
-//     '#58631e',
-//     '#38400d',
-//     '#1b2002'
-//   ];
+let COLOR_RANGE = [
+    '#EDFD99',
+    '#99a8fd',
+    '#fdee99',
+    '#99fdf6',
+    '#fd99ce',
+    '#b4fd99',
+  ];
 
 // function getRandomColor() {
 //     var letters = '0123456789ABCDEF';
@@ -116,6 +101,24 @@ const StyledTabs = withStyles({
     
   }))((props) => <Tab disableRipple {...props} />);
 
+  function ColorLuminance(hex, lum) {
+    // validate hex string
+    hex = String(hex).replace(/[^0-9a-f]/gi, '');
+    if (hex.length < 6) {
+      hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+    }
+    lum = lum || 0;
+  
+    // convert to decimal and change luminosity
+    var rgb = "#", c, i;
+    for (i = 0; i < 3; i++) {
+      c = parseInt(hex.substr(i*2,2), 16);
+      c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+      rgb += ("00"+c).substr(c.length);
+    }
+  
+    return rgb;
+  }
 
 class MapComponent extends React.Component {
     constructor(props) {
@@ -130,15 +133,25 @@ class MapComponent extends React.Component {
     }
 componentDidMount(){
     Axios.get('https://script.google.com/macros/s/AKfycbxSoELl1el6cJHtsdNcldXYgh4Tn69ofoVyNSfKGj9n2ar5YV4/exec').then(response=>{
-        let resp = response.data.filter(v => v.statecode != 'TT');
-        let categories = Object.keys(resp[0]).filter(v => !['state','statecode','lastupdatedtime'].includes(v));
-
-
+        let totalData;
+        let resp = response.data.filter(v => 
+          {
+            if(v.statecode != 'TT'){       
+                return true;
+            }
+            else {
+              totalData = v;
+              return false;
+            }
+        });
+        let categories = Object.keys(resp[0]).filter(v => !['','state','statecode','lastupdatedtime'].includes(v));
         let colorArray = [];
-        COLOR_RANGE.map(v => colorArray.push(v.substring(0, 1) + '0' + v.substring(1 + 1)))
-
+        for(let i=8;i>-4;i--){
+          colorArray.push(ColorLuminance(COLOR_RANGE[0],(i+1)/10))
+        }
         this.setState({
           data: resp,
+          totalData:totalData,
           categories : categories,
           gradientData : {
             fromColor: colorArray[0],
@@ -147,9 +160,8 @@ componentDidMount(){
             max: resp.reduce((max, item) => (item[categories[this.state.selectedIndex]] > max ? item[categories[this.state.selectedIndex]] : max), 0)
           },
           colorScale : scaleQuantile()
-          .domain(resp.map(d => d[categories[this.state.selectedIndex]]))
+          .domain(resp.map(d => +d[categories[this.state.selectedIndex]]))
           .range(colorArray)
-         
         })
        
         
@@ -164,7 +176,7 @@ componentDidMount(){
    onMouseEnter = (geo, current)  =>{
     return () => {
       this.setState({
-        tooltipContent:`${geo.properties.name}: ${current[this.state.categories[this.state.selectedIndex]] ? current[this.state.categories[this.state.selectedIndex]]:'NA'}`
+        tooltipContent:`${geo.properties.name}: ${!["",null,undefined].includes(current[this.state.categories[this.state.selectedIndex]]) ? current[this.state.categories[this.state.selectedIndex]]:'NA'}`
       })
     };
   };
@@ -177,10 +189,9 @@ componentDidMount(){
 handleCategoryChange = (event, newValue)=>{
     
     let colorArray = [];
-    COLOR_RANGE.map(v => {
-        let colorStr =v.substring(0, (newValue%6+1)) + newValue + v.substring((newValue%6+1) + 1);
-        colorArray.push(colorStr.slice(0,7))})
-console.log('colorArray',colorArray);
+    for(let i=4;i>-4;i--){
+      colorArray.push(ColorLuminance(COLOR_RANGE[newValue%COLOR_RANGE.length],(i+1)/10))
+    }
     this.setState({
         selectedIndex : newValue,
         gradientData : {
@@ -205,7 +216,7 @@ render(){
           variant="scrollable"
           aria-label="full width tabs example"
         >
-            {this.state.categories.map((v,i) => <StyledTab label={v} {...a11yProps(i)} />)}
+            {this.state.categories.map((v,i) => <StyledTab {...(this.state.totalData && this.state.totalData[v]?{label:this.state.totalData[v]}:{})} icon={<div>{v}</div>}  {...a11yProps(i)} />)}
 
         </StyledTabs>
       {/* <h1 className="no-margin center">States and UTs</h1> */}
