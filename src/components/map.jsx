@@ -133,9 +133,8 @@ class MapComponent extends React.Component {
         }
     }
 componentDidMount(){
-    Axios.get('https://script.google.com/macros/s/AKfycbxSoELl1el6cJHtsdNcldXYgh4Tn69ofoVyNSfKGj9n2ar5YV4/exec').then(response=>{
         let totalData;
-        let resp = response.data.filter(v => 
+        let resp = this.props.stateData.filter(v => 
           {
             if(v.statecode != 'TT'){       
                 return true;
@@ -145,7 +144,7 @@ componentDidMount(){
               return false;
             }
         });
-        let categories = Object.keys(resp[0]).filter(v => !['','state','statecode','lastupdatedtime'].includes(v));
+        let categories = resp[0] && Object.keys(resp[0]).filter(v => !['','state','statecode','lastupdatedtime'].includes(v));
         let colorArray = [];
         for(let i=8;i>-4;i--){
           colorArray.push(ColorLuminance(COLOR_RANGE[0],(i+1)/10))
@@ -165,12 +164,6 @@ componentDidMount(){
           .range(colorArray)
         })
        
-        
-           
-        
-      }).catch(error=>{
-        //we can update state to an error to show meaningful message on screen
-     });
 }
 
 
@@ -190,7 +183,7 @@ componentDidMount(){
 handleCategoryChange = (event, newValue)=>{
     
     let colorArray = [];
-    for(let i=4;i>-4;i--){
+    for(let i=8;i>-4;i--){
       colorArray.push(ColorLuminance(COLOR_RANGE[newValue%COLOR_RANGE.length],(i+1)/10))
     }
     this.setState({
@@ -237,7 +230,7 @@ render(){
                   <Geography
                     key={geo.rsmKey}
                     geography={geo}
-                    fill={current ? this.state.colorScale(current[this.state.categories[this.state.selectedIndex]]) : DEFAULT_COLOR}
+                    fill={current ? [0,""].includes(current[this.state.categories[this.state.selectedIndex]])?'white':this.state.colorScale(current[this.state.categories[this.state.selectedIndex]]) : DEFAULT_COLOR}
                     style={geographyStyle}
                     onMouseEnter={this.onMouseEnter(geo, current)}
                     onMouseLeave={this.onMouseLeave}

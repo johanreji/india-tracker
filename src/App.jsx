@@ -1,6 +1,7 @@
 import React from 'react';
 import Container from '@material-ui/core/Container';
 import StateTable from './components/table';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -14,6 +15,8 @@ import 'axios';
 import { styled } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import logo from './india-tracker-shadow.png';
+import Axios from 'axios';
+import Back from '@material-ui/icons/ArrowBack';
 
 // url to a valid topojson file
 const geoUrl =
@@ -35,6 +38,33 @@ function HideOnScroll(props) {
   );
 }
 class App extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      stateData : [],
+      districtData: [],
+      selectedState: ""
+    }
+}
+
+selectState = (state) => {
+  this.setState({
+    selectedState:state
+  })
+}
+
+  componentDidMount(){
+    Axios.get('https://script.google.com/macros/s/AKfycbxSoELl1el6cJHtsdNcldXYgh4Tn69ofoVyNSfKGj9n2ar5YV4/exec').then(response=>{
+    this.setState({
+      stateData:response.data
+    });
+  })
+  Axios.get('https://script.google.com/macros/s/AKfycbyhiGiT67oOnupBAXW1ZFBkd6ZWVAbXiajVBkA7I2EEEMHrelGc/exec').then(response=>{
+    this.setState({
+      districtData:response.data
+    });
+  })
+  }
 
   render(){
 
@@ -53,15 +83,28 @@ class App extends React.Component{
   <Container>
   {/* <Box my={2}> */}
   {/* <Container fixed> */}
-      <Grid container spacing={3}>
-      
+    { this.state.stateData.length > 0 && this.state.districtData.length >0 ? <Grid container spacing={3}>
+    <Grid item xs={12} sm={12} lg={12}> 
+      {this.state.selectedState != "" && <div  style={{display:"flex",alignItems:"center", cursor:"pointer"}} onClick={() => this.selectState("")}><Back/><h4>Go back to state table</h4></div>}
+      </Grid>
         <Grid item xs={12} sm={12} lg={6}>
-        <StateTable />
+          <StateTable  stateData={this.state.stateData} districtData={this.state.districtData} selectedState = {this.state.selectedState} selectState={this.selectState}/>
         </Grid>
         <Grid item xs={12} sm={12} lg={6}>
-        <MapComponent/>
+          <MapComponent stateData={this.state.stateData} districtData={this.state.districtData} selectedState = {this.state.selectedState} selectState={this.selectState}/>
         </Grid>    
-      </Grid>
+      </Grid>:
+    <Grid
+    container
+    spacing={0}
+    direction="column"
+    alignItems="center"
+    justify="center"
+    style={{ minHeight: '100vh' }}
+  >
+      <Grid item xs={12} sm={12} lg={12}>
+        <CircularProgress size={50} /></Grid>
+      </Grid>}
 
 
 

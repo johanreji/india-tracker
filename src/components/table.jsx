@@ -28,11 +28,17 @@ const StyledTableCell = withStyles((theme) => ({
       '&:nth-of-type(odd)': {
         backgroundColor: 'white',
         border:'none',
+        cursor:"pointer"
       },
       '&:nth-of-type(even)': {
         backgroundColor: 'white',
         border:'none',
+        cursor:"pointer"
       },
+      '&:hover':{
+        backgroundColor: 'lightgrey',
+        border:'none',
+      }
     },
   }))(TableRow);
 class StateTable extends React.Component{
@@ -46,16 +52,33 @@ class StateTable extends React.Component{
   }
  
   componentDidMount(){
-    Axios.get('https://script.google.com/macros/s/AKfycbxSoELl1el6cJHtsdNcldXYgh4Tn69ofoVyNSfKGj9n2ar5YV4/exec').then(response=>{
+    this.props.stateData.length &&
       this.setState({
-        tableHeader : Object.keys(response.data[0]),
-        tableData: response.data
+        tableHeader : Object.keys(this.props.stateData[0]),
+        tableData: this.props.stateData
       })
-
-      
-    }).catch(error=>{
-      //we can update state to an error to show meaningful message on screen
-   });
+  }
+  componentDidUpdate(prevProps){
+    if(prevProps.selectedState !=  this.props.selectedState){
+      if(this.props.selectedState == ""){
+        this.setState({
+          selectedState:"",
+          tableHeader : Object.keys(this.props.stateData[0]),
+          tableData: this.props.stateData
+        })
+      }else{
+          this.setState({
+            selectedState:this.props.selectedState,
+            tableHeader : Object.keys(this.props.districtData[0]),
+            tableData: this.props.districtData.filter(v => v.state == this.props.selectedState)
+          })
+        }
+      }
+  }
+  handleStateClick =(state) => {
+    if(this.props.districtData.length > 0){
+    this.props.selectState(state);
+  }
   }
   render(){
  
@@ -67,17 +90,17 @@ class StateTable extends React.Component{
         {lastupdatedtime && <caption>Last updated : {lastupdatedtime}</caption>}
         <TableHead > 
           <TableRow>
-            {this.state.tableHeader.map(v => (v!= 'statecode' && v != 'lastupdatedtime') && v && <StyledTableCell  style={{fontWeight:"600"}}>{v}</StyledTableCell>)}
+            {this.state.tableHeader.map(v => (v!= 'statecode' && v != 'lastupdatedtime' && (this.props.selectedState != ""? v!='state':true)) && v && <StyledTableCell  style={{fontWeight:"600"}}>{v}</StyledTableCell>)}
           </TableRow>
         </TableHead>
         <TableBody>
           {this.state.tableData.map((row) => 
-            row.statecode != 'TT' && <StyledTableRow key={row.id}>
+            row.statecode != 'TT' && <StyledTableRow key={row.id} onClick = {() => !(this.props.selectedState != "" ) && this.handleStateClick(row['state'])} >
               {Object.keys(row).map(u => {
                   if('lastupdatedtime' == u ){
                     lastupdatedtime = row[u];
                   }
-                  return ('statecode' != u && 'lastupdatedtime' != u && u) && <TableCell component="th" scope="row" style={'state' == u?{}:{textAlign:'right'}}>
+                  return ('statecode' != u && 'lastupdatedtime' != u && (this.props.selectedState != ""? u!='state':true) &&  u) && <TableCell component="th" scope="row" style={'state' == u?{}:{textAlign:'right'}}>
                 {row[u]}
               </TableCell>
             })}
