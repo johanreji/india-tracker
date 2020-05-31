@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/india-tracker/static/css/main.6ca14f59.chunk.css",
-    "main.js": "/india-tracker/static/js/main.2a09622d.chunk.js",
-    "main.js.map": "/india-tracker/static/js/main.2a09622d.chunk.js.map",
+    "main.js": "/india-tracker/static/js/main.71865287.chunk.js",
+    "main.js.map": "/india-tracker/static/js/main.71865287.chunk.js.map",
     "runtime-main.js": "/india-tracker/static/js/runtime-main.aba5cbc0.js",
     "runtime-main.js.map": "/india-tracker/static/js/runtime-main.aba5cbc0.js.map",
     "static/js/2.c4d3f1f2.chunk.js": "/india-tracker/static/js/2.c4d3f1f2.chunk.js",
     "static/js/2.c4d3f1f2.chunk.js.map": "/india-tracker/static/js/2.c4d3f1f2.chunk.js.map",
     "index.html": "/india-tracker/index.html",
-    "precache-manifest.7c5e5c7767afed407258a3f3f6e738d2.js": "/india-tracker/precache-manifest.7c5e5c7767afed407258a3f3f6e738d2.js",
+    "precache-manifest.8c1a6b68ebe60bf0c3c2ef3aed50b19d.js": "/india-tracker/precache-manifest.8c1a6b68ebe60bf0c3c2ef3aed50b19d.js",
     "service-worker.js": "/india-tracker/service-worker.js",
     "static/css/main.6ca14f59.chunk.css.map": "/india-tracker/static/css/main.6ca14f59.chunk.css.map",
     "static/js/2.c4d3f1f2.chunk.js.LICENSE.txt": "/india-tracker/static/js/2.c4d3f1f2.chunk.js.LICENSE.txt",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.aba5cbc0.js",
     "static/js/2.c4d3f1f2.chunk.js",
     "static/css/main.6ca14f59.chunk.css",
-    "static/js/main.2a09622d.chunk.js"
+    "static/js/main.71865287.chunk.js"
   ]
 }

@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "758ef873fba6ad1545ca327f79bf0e34",
+    "revision": "9c2e304a9f1609db495a64537362740b",
     "url": "/india-tracker/index.html"
   },
   {
-    "revision": "cc4c1cbaefb38dd475a2",
+    "revision": "683baecc8fc61af50d43",
     "url": "/india-tracker/static/css/main.6ca14f59.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/india-tracker/static/js/2.c4d3f1f2.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "cc4c1cbaefb38dd475a2",
-    "url": "/india-tracker/static/js/main.2a09622d.chunk.js"
+    "revision": "683baecc8fc61af50d43",
+    "url": "/india-tracker/static/js/main.71865287.chunk.js"
   },
   {
     "revision": "e3f19176593cfe6482ae",
