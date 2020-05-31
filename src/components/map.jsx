@@ -49,7 +49,8 @@ const DEFAULT_COLOR = '#EEE';
 
 const geographyStyle = {
   default: {
-    outline: 'none'
+    outline: 'none',
+    stroke: '#636363'
   },
   hover: {
     fill: '#ccc',
@@ -176,7 +177,7 @@ componentDidMount(){
    onMouseEnter = (geo, current)  =>{
     return () => {
       this.setState({
-        tooltipContent:`${geo.properties.name}: ${!["",null,undefined].includes(current[this.state.categories[this.state.selectedIndex]]) ? current[this.state.categories[this.state.selectedIndex]]:'NA'}`
+        tooltipContent:`${geo.properties.st_nm}: ${!["",null,undefined].includes(current[this.state.categories[this.state.selectedIndex]]) ? current[this.state.categories[this.state.selectedIndex]]:'NA'}`
       })
     };
   };
@@ -225,14 +226,13 @@ render(){
           projectionConfig={PROJECTION_CONFIG}
           projection="geoMercator"
           
-          viewBox={  `50 -150 ${900} ${900}` }
+          viewBox={  `50 -250 ${900} ${1000}` }
           data-tip=""
         >
           <Geographies geography={INDIA_TOPO_JSON}>
-            {({ geographies }) =>
-              geographies.map(geo => {
+            {({ geographies }) => geographies.map(geo => {
                 //console.log(geo.id);
-                const current = this.state.data.find(s => s.statecode === geo.id);
+                const current = this.state.data.find(s => s.state === geo.id);
                 return (
                   <Geography
                     key={geo.rsmKey}

@@ -42,7 +42,7 @@ class App extends React.Component{
 <HideOnScroll >
   <MyAppBar >
     <Toolbar>
-      <Typography variant="h4">TriFed</Typography>
+      <Typography variant="h4">TRIFED</Typography>
       <img style={{marginLeft: 'auto',maxWidth: '130px',marginTop: '-10px'}} src={logo}/>
     </Toolbar>
     
